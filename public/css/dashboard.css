@@ -171,3 +171,6 @@ body {
   display: inline-block;
   cursor: pointer;
 }
+.list-group-item{
+  cursor: pointer !important;
+}
