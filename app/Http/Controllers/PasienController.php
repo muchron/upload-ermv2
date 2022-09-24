@@ -18,7 +18,6 @@ class PasienController extends Controller
             $pasien = Pasien::select(['nm_pasien', 'no_rkm_medis'])
                 ->where('nm_pasien', 'like', $request->q . '%')
                 ->orWhere('no_rkm_medis', 'like', $request->q . '%')
-                ->limit(10)
                 ->get();
         }
         return response()->json($pasien);

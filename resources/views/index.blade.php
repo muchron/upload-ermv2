@@ -36,74 +36,11 @@
 
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            if ($('.pip').length == 0) {
-                $('#submit').hide()
-            }
-
-        })
-        const previewImage = (input) => {
-            if (input.files && input.files[0]) {
-                $('#submit').show()
-                countImage = input.files.length;
-                for (let index = 0; index < countImage; index++) {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(input.files[index]);
-                    reader.onload = function(e) {
-                        var file = e.target;
-                        var fileName = input.files[index].name
-
-                        $('#preview').append('<div class="pip col-sm-3"><input type="hidden" name="images[]" value="' + file.result + '"><img src="' + file.result + '" title="' + fileName + '" alt="' + fileName + '"><br /><span class="remove badge text-bg-danger">Remove image</span></div>')
-
-                        $(".remove").click(function() {
-                            $(this).parent(".pip").remove();
-                            if ($('.pip').length == 0) {
-                                $('#images').val("");
-                                $('#submit').hide()
-                            }
-                        });
-                    };
-                }
-            } else {
-                $('#submit').hide()
-            }
-        }
-        $('.search').select2({
-            placeholder: 'Cari pasien',
-            allowClear: true
-            , ajax: {
-                url: 'pasien/cari'
-                , dataType: 'json'
-                , delay: 250
-                , processResults: function(data) {
-                    return {
-                        results: $.map(data, function(item) {
-                            // console.log(item)
-                            return {
-                                text: item.no_rkm_medis+' - '+item.nm_pasien,
-                                id: item.no_rkm_medis
-                            }
-                        })
-                    };
-                }
-                , cache: true
-            }
-        });
-
-        $('.search').change(function(){
-            let no_rkm_medis = $('.search option:selected').val();
-            $.ajax({
-                url : 'periksa/'+no_rkm_medis,
-                dataType:'JSON',
-                success:function(data){
-                    $.map(data, function(item){
-                        console.log(item)
-                    })
-                }
-            });
-        });
+        
+        
 
     </script>
+    @stack('script')
 </body>
 
 </html>

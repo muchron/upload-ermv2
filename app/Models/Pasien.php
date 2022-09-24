@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Upload;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pasien extends Model
 {
@@ -16,5 +17,9 @@ class Pasien extends Model
             'no_rkm_medis',
             'no_rkm_medis'
         );
+    }
+    public function upload()
+    {
+        return $this->hasMany(Upload::class, 'no_rkm_medis', 'no_rkm_medis');
     }
 }

@@ -14,4 +14,8 @@ class RegPeriksa extends Model
     {
         return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
     }
+    public function upload()
+    {
+        return $this->hasOne(Upload::class, 'no_rawat', 'no_rawat');
+    }
 }
