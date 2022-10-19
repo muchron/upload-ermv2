@@ -29,7 +29,7 @@ body {
 
 @media (max-width: 767.98px) {
   #preview .pip img {
-    max-width: 50%;
+    max-width: 100%;
     padding: 10px;
   }
 }
@@ -103,11 +103,7 @@ body {
   user-select: none;
 }
 
-@media only screen and (max-width: 768px) {
-  .pip img {
-    max-width: 100%;
-  }
-}
+
 
 @media(min-width:768px) {
   .bd-placeholder-img-lg {
@@ -117,10 +113,6 @@ body {
 }
 
 
-#preview .pip img {
-  max-width: 100%;
-  padding: 10px;
-}
 
 .b-example-divider {
   height: 3rem;
@@ -159,9 +151,9 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* .pip img {
-  max-width: 50%;
-} */
+  .pip img {
+    max-width: 50%;
+  }
 
 .pip {
   display: block;

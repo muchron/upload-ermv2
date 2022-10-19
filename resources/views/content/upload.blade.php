@@ -24,14 +24,14 @@
                     <td><strong>{{$tgl_lahir}}<strong></td>
                 </tr>
             </table>
-            
+
         </div>
     </div>
     <div class="card">
         <div class="card-body">
-<form action="upload" method="post" enctype="multipart/form-data">
+            <form action="upload" method="post" enctype="multipart/form-data">
                 @csrf
-    
+
                 <div class="d-grid gap-2">
                     <label for="no_rkm_medis"></label>
                     <input type="hidden" id="no_rkm_medis" name="no_rkm_medis" value="{{$no_rkm_medis}}">
@@ -42,7 +42,7 @@
                 <label>Anda dapat mengupload lebih dari satu gambar</label>
                 <div class="mb-3">
                     <input class="form-control" type="file" id="images" name="file" multiple onchange="previewImage(this)" style="display: none">
-    
+
                 </div>
                 <div class="mb-2 text-center">
                     <div class="row" id="preview">

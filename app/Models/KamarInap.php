@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\RegPeriksa;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Upload extends Model
+class KamarInap extends Model
 {
     use HasFactory;
-    protected $table = 'rsia_upload';
-    protected $guarded = ['id'];
-
+    protected $table = 'kamar_inap';
     public function regPeriksa()
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');

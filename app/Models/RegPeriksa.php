@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pasien;
+use App\Models\Upload;
+use App\Models\KamarInap;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RegPeriksa extends Model
 {
@@ -16,6 +19,10 @@ class RegPeriksa extends Model
     }
     public function upload()
     {
-        return $this->hasOne(Upload::class, 'no_rawat', 'no_rawat');
+        return $this->hasMany(Upload::class, 'no_rawat', 'no_rawat');
+    }
+    public function kamarInap()
+    {
+        return $this->hasOne(KamarInap::class, 'no_rawat', 'no_rawat');
     }
 }

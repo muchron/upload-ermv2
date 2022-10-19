@@ -36,8 +36,8 @@
 
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
-        
-        
+
+
 
     </script>
     @stack('script')

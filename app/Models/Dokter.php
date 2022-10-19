@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Dokter extends Model
+{
+    use HasFactory;
+    protected $table = 'dokter';
+
+    public function mappingPoli()
+    {
+        return $this->hasMany(
+            MappingPoliklinik::class,
+            'kd_dokter',
+            'kd_dokter'
+        );
+    }
+    
+}

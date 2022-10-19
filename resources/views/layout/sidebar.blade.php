@@ -13,6 +13,12 @@
                     Pasien
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{Request::is('poliklinik') ? 'active' : ''}}" href="/upload-erm/poliklinik">
+                    <i class="bi bi-bandaid-fill align-text-bottom"></i>
+                    Poliklinik
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
