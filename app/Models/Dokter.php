@@ -18,5 +18,8 @@ class Dokter extends Model
             'kd_dokter'
         );
     }
-    
+    public function regPeriksa()
+    {
+        return $this->hasMany(RegPeriksa::class, 'kd_dokter', 'kd_dokter');
+    }
 }

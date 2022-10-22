@@ -25,4 +25,8 @@ class RegPeriksa extends Model
     {
         return $this->hasOne(KamarInap::class, 'no_rawat', 'no_rawat');
     }
+    public function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
+    }
 }
