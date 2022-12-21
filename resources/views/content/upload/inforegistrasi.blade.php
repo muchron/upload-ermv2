@@ -3,7 +3,7 @@
         Data Perawatan
     </div>
     <div class="card-body">
-        <table class="table table-borderless" width="100%">
+        <table class="table table-borderless table-sm" width="100%">
             <tr>
                 <td>Nama</td>
                 <td>:</td>

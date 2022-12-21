@@ -1,92 +1,90 @@
 @extends('index')
 
 @section('contents')
-
-<div class="input-group mb-3">
-    <select class="search form-control" name="keyword"></select>
-</div>
-
-
-<div class="row gy-2">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-header text-bg-warning">
-                Histori Kunjungan Rawat Jalan
-            </div>
-            <div class="card-body">
-                <table id="ralan" class="table table-responsive text-sm">
-                    <thead>
-                        <tr>
-                            <th>No. Rawat</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="input-group mb-3">
+        <select class="search form-control" name="keyword"></select>
     </div>
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-header text-bg-danger">
-                Histori Kunjungan Rawat Inap
-            </div>
-            <div class="card-body">
-                <table id="ranap" class="table table-responsive text-sm">
-                    <thead>
-                        <tr>
-                            <th>No. Rawat</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
+
+    <div class="row gy-2">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header text-bg-warning">
+                    Histori Kunjungan Rawat Jalan
+                </div>
+                <div class="card-body">
+                    <table id="ralan" class="table table-responsive text-sm table-sm">
+                        <thead>
+                            <tr>
+                                <th>No. Rawat</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-12">
-        @include('content.upload.inforegistrasi')
-    </div>
-    <div class="col-sm-12">
-        @include('content.upload.resume')
-    </div>
-</div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header text-bg-danger">
+                    Histori Kunjungan Rawat Inap
+                </div>
+                <div class="card-body">
+                    <table id="ranap" class="table table-responsive text-sm table-sm">
+                        <thead>
+                            <tr>
+                                <th>No. Rawat</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-    @endsection
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            @include('content.upload.inforegistrasi')
+        </div>
+        <div class="col-sm-12">
+            @include('content.upload.resume')
+        </div>
+    </div>
+@endsection
 
-    @push('script')
+@push('script')
     <script>
         var btnName;
         $('.search').select2({
-            placeholder: 'Cari pasien'
-            , allowClear: true
-            , ajax: {
-                url: 'pasien/cari'
-                , dataType: 'json'
-                , delay: 250
-                , processResults: function(data) {
+            placeholder: 'Cari pasien',
+            allowClear: true,
+            ajax: {
+                url: 'pasien/cari',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
                     return {
                         results: $.map(data, function(item) {
                             // console.log(item)
                             return {
-                                text: item.no_rkm_medis + ' - ' + item.nm_pasien
-                                , id: item.no_rkm_medis
+                                text: item.no_rkm_medis + ' - ' + item.nm_pasien,
+                                id: item.no_rkm_medis
                             }
                         })
                     };
-                }
-                , cache: true
+                },
+                cache: true
             }
         });
         $(".search").on("select2:unselecting", function(e) {
-               $('#button-form label').detach()
-               $('#button-form input').detach()
+            $('#button-form label').detach()
+            $('#button-form input').detach()
         });
 
 
@@ -194,7 +192,7 @@
         //             if (countData > 0) {
         //                 img = data.file.split(',');
         //                 $.map(img, function(file) {
-        //                     $('#image').append('<div class="tmb col-sm-4"><img class="img-thumbnail position-relative" src="{{asset("erm")}}/' + file + '" /><span class="badge text-bg-danger" onclick=deleteImage(' + data.id + ',"' + file + '")>Hapus</span></div>')
+        //                     $('#image').append('<div class="tmb col-sm-4"><img class="img-thumbnail position-relative" src="{{ asset('erm') }}/' + file + '" /><span class="badge text-bg-danger" onclick=deleteImage(' + data.id + ',"' + file + '")>Hapus</span></div>')
         //                 })
         //                 // $('#upload-image').css('visibility', 'hidden')
         //             }
@@ -202,9 +200,9 @@
         //             // }
         //         }
         //     })
-            
+
         // }
-        
+
         // function deleteImage(id, img) {
         //    kategori = $('input[type="radio"]:checked').val();
         //    no_rawat= $('#no_rawat').val();
@@ -229,7 +227,7 @@
         //                 , url: 'upload/delete/' + id + '?image=' + img
         //                 , dataType: 'JSON'
         //                 , data: {
-        //                     _token: "{{csrf_token()}}"
+        //                     _token: "{{ csrf_token() }}"
         //                 , }
         //                 , success: function(data) {
         //                     showForm(no_rawat, kategori);
@@ -312,7 +310,7 @@
         //         , tgl_masuk: $('#tgl_masuk').val()
         //         , kategori: $('input[type="radio"]:checked').val()
         //         , username: 'admin'
-        //         , _token: "{{csrf_token()}}"
+        //         , _token: "{{ csrf_token() }}"
         //     }
 
         //     $.ajax({
@@ -339,7 +337,7 @@
         //                 , 'Berkas sudah terupload di server'
         //                 , 'success'
         //             )
-                    
+
         //         }
         //         , fail: function(jqXHR, status) {
         //             console.log(status)
@@ -348,6 +346,5 @@
 
 
         // })
-
     </script>
-    @endpush
+@endpush

@@ -23,7 +23,6 @@
                     </h1>
                 </div>
                 @yield('contents')
-                <iframe class="embed-responsive-item" src="https://dianikah.site"></iframe>
             </main>
         </div>
     </div>
