@@ -11,6 +11,8 @@ use Yajra\DataTables\DataTables;
 use App\Models\MappingPoliklinik;
 use App\Models\Upload;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PoliklinikController extends Controller
 {
     public function index()
@@ -35,8 +37,8 @@ class PoliklinikController extends Controller
         return $pasienPoli = RegPeriksa::whereYear('tgl_registrasi', '2022')
             ->with(['pasien', 'dokter'])
             ->where('kd_poli', $kd_poli)
-            ->where('kd_dokter', $kd_dokter)
-            ->get();
+            ->where('kd_dokter', $kd_dokter);
+
         // return response()->json($pasienPoli);
     }
     public function namaPoli($kd_poli = '')
@@ -44,6 +46,10 @@ class PoliklinikController extends Controller
         return $poliklinik = Poliklinik::where('status', '1')
             ->where('kd_poli', $kd_poli)
             ->first();
+    }
+    public function pasienPoliUpload()
+    {
+        // return $regPeriksa = RegPeriksa::
     }
     public function dokterPoli($kd_dokter = '')
     {
@@ -59,16 +65,32 @@ class PoliklinikController extends Controller
         $pasien = $this->poliPasien($kd_poli, $request->dokter);
         $poliklinik = $this->namaPoli($kd_poli);
         $dokter = $this->dokterPoli($request->dokter);
+        $jmlUpload = 0;
+        foreach ($pasien as $p) {
+            $jmlUpload = $jmlUpload + $p->upload_count;
+        }
+
+        // return $jmlUpload;
         return view('content.poliklinik.pasien', [
-            'pasien' => $pasien,
+            'pasien' => $pasien->get(),
+            'jumlah' => $pasien->count(),
             'poli' => $poliklinik,
             'dokter' => $dokter,
+            'uploaded' => $jmlUpload,
         ]);
+    }
+    public function countUpload($kd_poli, Request $request)
+    {
+        $pasien = $this->poliPasien($kd_poli, $request->dokter)->withCount('upload')->get();
+        $jmlUpload = 0;
+        foreach ($pasien as $p) {
+            $jmlUpload = $jmlUpload + $p->upload_count;
+        }
+        return $jmlUpload;
     }
     public function tbPoliPasien($kd_poli, Request $request)
     {
         $pasien = $this->poliPasien($kd_poli, $request->dokter);
-        // return $no_rawat = $this->statusUpload($pasien->no_rawat);
 
         return DataTables::of($pasien)
             ->editColumn('nm_pasien', function ($q) {

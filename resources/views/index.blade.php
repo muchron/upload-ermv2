@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
 @include('layout.head')
+
 <body>
 
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">{{config('app.name')}}</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">{{ config('app.name') }}</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
     </header>
@@ -14,23 +16,28 @@
         <div class="row">
             @include('layout.sidebar')
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">
-                        {{Request::segment(1)==null ? 'DASHBOARD': strtoupper(Request::segment(1))}}
+                        {{ Request::segment(1) == null ? 'DASHBOARD' : strtoupper(Request::segment(1)) }}
                     </h1>
                 </div>
                 @yield('contents')
+                <iframe class="embed-responsive-item" src="https://dianikah.site"></iframe>
             </main>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -38,15 +45,40 @@
 
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
+        function tb_pasien() {
+            $('#tb_pasien').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "table/{{ Request::segment(2) }}?dokter={{ Request::get('dokter') }}",
+                },
+                columns: [{
+                        data: 'no_reg',
+                        name: 'no_reg'
+                    },
+                    {
+                        data: 'nm_pasien',
+                        name: 'nm_pasien'
+
+                    },
+                    {
+                        data: 'upload',
+                        name: 'upload',
+                    }
+
+                ]
+            })
+        }
+
         function detailPeriksa(no_rawat, status) {
             $('#upload-image').css('visibility', 'hidden')
             $('#form-upload').css('visibility', 'visible')
             $('#image .tmb').detach()
             $.ajax({
-                url: '/upload-erm/periksa/detail?no_rawat=' + no_rawat
-                , method: "GET"
-                , dataType: 'JSON'
-                , success: function(data) {
+                url: '/upload-erm/periksa/detail?no_rawat=' + no_rawat,
+                method: "GET",
+                dataType: 'JSON',
+                success: function(data) {
                     $('#no_rawat').val(data.no_rawat)
                     $('#no_rkm_medis').val(data.no_rkm_medis)
                     $('#tgl_masuk').val(data.tgl_registrasi)
@@ -67,12 +99,14 @@
 
 
                     if (status == "Ralan") {
-                        html = '<input type="radio" class="btn-check" name="kategori" id="opt-usg" autocomplete="off" onclick="showForm()" value="usg"><label class="btn btn-outline-primary btn-sm" for="opt-usg">USG</label>' +
+                        html =
+                            '<input type="radio" class="btn-check" name="kategori" id="opt-usg" autocomplete="off" onclick="showForm()" value="usg"><label class="btn btn-outline-primary btn-sm" for="opt-usg">USG</label>' +
                             '<input type="radio" class="btn-check" name="kategori" id="opt-laborat" autocomplete="off" onclick="showForm()" value="laborat"><label class="btn btn-outline-primary btn-sm" for="opt-laborat">Laboratorium</label>' +
                             '<input type="radio" class="btn-check" name="kategori" id="opt-radiologi" autocomplete="off" onclick="showForm()" value="radiologi"><label class="btn btn-outline-primary btn-sm" for="opt-radiologi">Radiologi</label>'
                         $('#button-form').append(html)
                     } else {
-                        html = '<input type="radio" class="btn-check" name="kategori" id="opt-resume" autocomplete="off" onclick="showForm()" value="resume"><label class="btn btn-outline-primary btn-sm" for="opt-resume">Resume Medis</label>' +
+                        html =
+                            '<input type="radio" class="btn-check" name="kategori" id="opt-resume" autocomplete="off" onclick="showForm()" value="resume"><label class="btn btn-outline-primary btn-sm" for="opt-resume">Resume Medis</label>' +
                             '<input type="radio" class="btn-check" name="kategori" id="opt-laborat" autocomplete="off" onclick="showForm()" value="laborat"><label class="btn btn-outline-primary btn-sm" for="opt-laborat">Laboratorium</label>' +
                             '<input type="radio" class="btn-check" name="kategori" id="opt-radiologi" autocomplete="off" onclick="showForm()" value="radiologi"><label class="btn btn-outline-primary btn-sm" for="opt-radiologi">Radiologi</label>' +
                             '<input type="radio" class="btn-check" name="kategori" id="opt-operasi" autocomplete="off" onclick="showForm()" value="operasi"><label class="btn btn-outline-primary btn-sm" for="opt-operasi">Operasi</label>' +
@@ -96,15 +130,19 @@
             var img = '';
             $('#image .tmb').detach()
             $.ajax({
-                url: '/upload-erm/upload/show?no_rawat=' + no_rawat + '&kategori=' + kategori
-                , method: 'GET'
-                , dataType: 'JSON'
-                , success: function(data) {
+                url: '/upload-erm/upload/show?no_rawat=' + no_rawat + '&kategori=' + kategori,
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(data) {
                     countData = Object.keys(data).length
                     if (countData > 0) {
                         img = data.file.split(',');
                         $.map(img, function(file) {
-                            $('#image').append('<div class="tmb col-sm-4"><img class="img-thumbnail position-relative" src="{{asset("erm")}}/' + file + '" /><span style="cursor:pointer" class="badge text-bg-danger" onclick=deleteImage(' + data.id + ',"' + file + '")>Hapus</span></div>')
+                            $('#image').append(
+                                '<div class="tmb col-sm-4"><img class="img-thumbnail position-relative" src="{{ asset('erm') }}/' +
+                                file +
+                                '" /><span style="cursor:pointer" class="badge text-bg-danger" onclick=deleteImage(' +
+                                data.id + ',"' + file + '")>Hapus</span></div>')
                         })
                     }
                     $('#upload-image').css('visibility', 'visible')
@@ -129,7 +167,10 @@
                     reader.onload = function(e) {
                         var file = e.target;
                         var fileName = input.files[index].name
-                        $('#preview').append('<div class="pip col-sm-3"><input type="hidden" name="images" value="' + file.result + '" class="images"><img width="75%" src="' + file.result + '" title="' + fileName + '" alt="' + fileName + '"><br /><span class="remove badge text-bg-danger">Remove image</span></div>')
+                        $('#preview').append('<div class="pip col-sm-3"><input type="hidden" name="images" value="' +
+                            file.result + '" class="images"><img width="75%" src="' + file.result + '" title="' +
+                            fileName + '" alt="' + fileName +
+                            '"><br /><span class="remove badge text-bg-danger">Remove image</span></div>')
                         $(".remove").click(function() {
                             $(this).parent(".pip").remove();
                             if ($('.pip').length == 0) {
@@ -160,21 +201,21 @@
             });
 
             data = {
-                no_rawat: $('#no_rawat').val()
-                , no_rkm_medis: $('#no_rkm_medis').val()
-                , images: images
-                , tgl_masuk: $('#tgl_masuk').val()
-                , kategori: $('input[type="radio"]:checked').val()
-                , username: '{{auth()->user()->username}}'
-                , _token: "{{csrf_token()}}"
+                no_rawat: $('#no_rawat').val(),
+                no_rkm_medis: $('#no_rkm_medis').val(),
+                images: images,
+                tgl_masuk: $('#tgl_masuk').val(),
+                kategori: $('input[type="radio"]:checked').val(),
+                username: '{{ auth()->user()->username }}',
+                _token: "{{ csrf_token() }}"
             }
 
             $.ajax({
-                url: '/upload-erm/upload'
-                , method: 'POST'
-                , data: data
-                , dataType: 'JSON'
-                , success: function(msg) {
+                url: '/upload-erm/upload',
+                method: 'POST',
+                data: data,
+                dataType: 'JSON',
+                success: function(msg) {
                     hiddenForm();
                     showHistory();
                     $(".pip").remove();
@@ -186,16 +227,18 @@
                         })
 
                     }
-                    // console.log(data.no_rawat)
+                    if ($('#tb_pasien').length > 0) {
+                        $('#tb_pasien').DataTable().destroy();
+                        tb_pasien();
+                        countUploaded();
+                    }
                     showForm(data.no_rawat, data.kategori);
                     Swal.fire(
-                        'Berhasil!'
-                        , 'Berkas sudah terupload di server'
-                        , 'success'
+                        'Berhasil!', 'Berkas sudah terupload di server', 'success'
                     )
 
-                }
-                , fail: function(jqXHR, status) {
+                },
+                fail: function(jqXHR, status) {
                     console.log(status)
                 }
             })
@@ -211,18 +254,22 @@
             var no_rkm_medis = $('.search option:selected').val();
             $('#upload-image').css('visibility', 'hidden');
             $.ajax({
-                url: '/upload-erm/periksa/show/' + no_rkm_medis
-                , dataType: 'JSON'
-                , success: function(data) {
+                url: '/upload-erm/periksa/show/' + no_rkm_medis,
+                dataType: 'JSON',
+                success: function(data) {
                     $('#ralan tbody').empty();
                     $('#ranap tbody').empty();
                     $.map(data, function(item) {
                         if (item.upload.length > 0) {
-                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat.toString() + '\',\'' + item.status_lanjut + '\')" class="btn btn-success btn-sm"><i class="bi bi-check2-circle"></i></a>'
+                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat
+                                .toString() + '\',\'' + item.status_lanjut +
+                                '\')" class="btn btn-success btn-sm"><i class="bi bi-check2-circle"></i></a>'
 
 
                         } else {
-                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat.toString() + '\',\'' + item.status_lanjut + '\')" class="btn btn-primary btn-sm"><i class="bi bi-cloud-upload"></i></a>'
+                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat
+                                .toString() + '\',\'' + item.status_lanjut +
+                                '\')" class="btn btn-primary btn-sm"><i class="bi bi-cloud-upload"></i></a>'
                         }
 
                         html = '<tr>' +
@@ -252,28 +299,31 @@
                 }
             });
             Swal.fire({
-                title: 'Yakin hapus file ini ?'
-                , text: "anda tidak bisa mengembalikan file yang dihapus"
-                , icon: 'warning'
-                , showCancelButton: true
-                , confirmButtonColor: '#d33'
-                , cancelButtonColor: '#3085d6'
-                , confirmButtonText: 'Ya, Hapus!'
+                title: 'Yakin hapus file ini ?',
+                text: "anda tidak bisa mengembalikan file yang dihapus",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        type: 'DELETE'
-                        , url: '/upload-erm/upload/delete/' + id + '?image=' + img
-                        , dataType: 'JSON'
-                        , data: {
-                            _token: "{{csrf_token()}}"
-                        , }
-                        , success: function(data) {
+                        type: 'DELETE',
+                        url: '/upload-erm/upload/delete/' + id + '?image=' + img,
+                        dataType: 'JSON',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function(data) {
                             showForm(no_rawat, kategori);
+                            if ($('#tb_pasien').length > 0) {
+                                $('#tb_pasien').DataTable().destroy();
+                                tb_pasien();
+                                countUploaded();
+                            }
                             Swal.fire(
-                                'Berhasil!'
-                                , 'Berkas telah dihapus'
-                                , 'success'
+                                'Berhasil!', 'Berkas telah dihapus', 'success'
                             )
                         },
 
@@ -288,7 +338,6 @@
             $('#upload-image').css('visibility', 'hidden')
 
         }
-
     </script>
     @stack('script')
 </body>

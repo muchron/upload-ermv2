@@ -61,4 +61,6 @@ Route::middleware('auth')->group(function () {
         PoliklinikController::class,
         'viewPoliPasien',
     ]);
+    Route::get('/poliklinik/count/{kd_poli}', [PoliklinikController::class, 'countUpload']);
 });
+Route::get('/aes/{input}/{string}', [LoginController::class, 'aes_encrypt']);

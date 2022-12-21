@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +16,8 @@
 
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
 
     <!-- Favicons -->
@@ -79,27 +81,28 @@
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
         }
-
     </style>
 
 
     <!-- Custom styles for this template -->
-    <link href="{{asset('css/signin.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
 </head>
-<body class="text-center">
 
+<body class="text-center">
     <main class="form-signin w-100 m-auto">
         <form action="/upload-erm/login" method="POST">
             @csrf
-            <img class="mb-4" src="{{asset('img/logo.png')}}" alt="" width="72" height="72">
+            <img class="mb-4" src="{{ asset('img/logo.png') }}" alt="" width="72" height="72">
             <h1 class="h3 mb-3 fw-normal">LOGIN UPLOAD ERM</h1>
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Nomor Induk Karyawan" autocomplete="off" autofocus value="{{old('username')}}">
+                <input type="text" class="form-control" id="username" name="username"
+                    placeholder="Nomor Induk Karyawan" autocomplete="off" autofocus value="{{ old('username') }}">
                 <label for="username">NIP</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                    autocomplete="off">
                 <label for="password">Password</label>
             </div>
 
@@ -109,8 +112,9 @@
                 </label>
             </div> --}}
             <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-            <p class="mt-5 mb-3 text-muted">&copy; {{date('Y')}}</p>
+            <p class="mt-5 mb-3 text-muted">&copy; {{ date('Y') }}</p>
         </form>
     </main>
 </body>
+
 </html>
