@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('contents')
-    <div class="row">
+    <div class="row gy-2">
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body text-center">

@@ -64,3 +64,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/poliklinik/count/{kd_poli}', [PoliklinikController::class, 'countUpload']);
 });
 Route::get('/aes/{input}/{string}', [LoginController::class, 'aes_encrypt']);
+Route::get('/test/{no_rkm_medis}', [RegPeriksaController::class, 'pemeriksaanRalan']);

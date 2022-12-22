@@ -39,19 +39,68 @@
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
 
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
+        function resume(d) {
+            // `d` is the original data object for the row
+            // var no_rawat = '';
+            // var pemeriksaan = '';
+            // d.reg_periksa.forEach(function(i) {
+            //     i.pemeriksaan_ralan.forEach(function(x) {
+            //         pemeriksaan = '<tr><td></td><td>Tanggal ' + x.tgl_perawatan + ' ' + x.jam_rawat +
+            //             '<br/>' +
+            //             'Suhu : <strong>' + x.suhu_tubuh + '</strong></br>' +
+            //             'Tensi : <strong>' + x.tensi + '</strong></br>' +
+            //             'Nadi : <strong>' + x.nadi + '</strong></br>' +
+            //             'Respirasi : <strong>' + x.respirasi + '</strong></br>' +
+
+            //             '</td></tr>';
+            //         // console.log(x)
+            //     })
+            //     no_rawat += '<tr><td></td><td>' + i.no_rawat + '</td>' +
+            //         pemeriksaan + '</tr>'
+            //     console.log(i)
+            // });
+            // return (
+            //     '<table class="table table-responsive table-bordered" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            //     '<tr>' +
+            //     '<td>Tanggal Daftar</td>' +
+            //     '<td> : ' +
+            //     d.tgl_lahir +
+            //     '</td>' +
+            //     '</tr>' +
+            //     '<tr>' +
+            //     '<td>Alamat</td>' +
+            //     '<td> : ' +
+            //     d.alamat +
+            //     '</td>' +
+            //     '</tr>' +
+            //     '<tr>' +
+            //     '<td colspan="2" align="center"><strong>PEMERIKSAAN RAWAT JALAN</strong>' + no_rawat + '</td>' +
+            //     '</tr>' +
+            //     '</table>'
+            // );
+
+            return ();
+        }
+
         function tb_pasien() {
-            $('#tb_pasien').DataTable({
+            var table = $('#tb_pasien').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "table/{{ Request::segment(2) }}?dokter={{ Request::get('dokter') }}",
                 },
                 columns: [{
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                    },
+                    {
                         data: 'no_reg',
                         name: 'no_reg'
                     },
@@ -65,8 +114,40 @@
                         name: 'upload',
                     }
 
-                ]
-            })
+                ],
+                order: [
+                    [1, 'asc']
+                ],
+            });
+            $('#tb_pasien tbody').on('click', 'td.dt-control', function() {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                var dataPeriksa = [];
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    $.ajax({
+                        url: '/upload-erm/test/' + row.data().no_rkm_medis,
+                        method: 'GET',
+                        dataType: 'JSON',
+                        success: function(data) {
+                            data.forEach(function(item, index) {
+                                dataPeriksa = item;
+                                // console.log(dataPeriksa)
+                                row.child(resume(dataPeriksa)).show();
+                                tr.addClass('shown');
+                                tr.removeClass('shown');
+                            })
+                        }
+                    })
+
+
+                }
+            });
         }
 
         function detailPeriksa(no_rawat, status) {

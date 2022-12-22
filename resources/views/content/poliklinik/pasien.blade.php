@@ -2,11 +2,10 @@
 
 @section('contents')
     <div class="row gy-2">
-
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-center">DATA PASIEN</h5>
+                    <h5 class="card-title text-center">PASIEN HARI INI</h5>
                     <p style="background-color: #0067dd;color:white;padding:5px">Poli : <strong>{{ $poli->nm_poli }}</strong>
                     </p>
                     <p style="">Dokter : <strong>{{ $dokter->nm_dokter }}</strong></p>
@@ -22,10 +21,11 @@
                             <td><strong id="count-uploaded" class="text-success"></strong></td>
                         </tr>
                     </table>
-                    <table class="table table-striped table-responsive" id="tb_pasien" width="100%">
 
+                    <table class="table table-striped table-responsive text-sm table-sm" id="tb_pasien" width="100%">
                         <thead>
                             <tr role="row">
+                                <th></th>
                                 <th>No</th>
                                 <th>Pasien</th>
                                 <th>Upload</th>
@@ -39,13 +39,8 @@
             </div>
 
         </div>
-        <div class="col-sm-12">
-            @include('content.upload.inforegistrasi')
-        </div>
-        <div class="col-sm-12">
-            @include('content.upload.resume')
-        </div>
-
+        @include('content.upload.inforegistrasi')
+        @include('content.upload.resume')
     </div>
 @endsection
 

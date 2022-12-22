@@ -27,5 +27,4 @@ class PasienController extends Controller
         $pasien = Pasien::where('no_rkm_medis', $no_rkm_medis)->first();
         return response()->json($pasien);
     }
-   
 }

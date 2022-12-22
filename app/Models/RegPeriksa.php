@@ -29,4 +29,8 @@ class RegPeriksa extends Model
     {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
+    public function pemeriksaanRalan()
+    {
+        return $this->hasMany(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
+    }
 }
