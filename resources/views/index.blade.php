@@ -111,11 +111,12 @@
             if (Object.keys(obat).length > 0) {
                 var pemberian = '<table class="table table-success borderless mb-0">';
                 obat.forEach(function(o) {
-                    console.log(o)
-                    pemberian += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' +
-                        o.jam + '</td><td>: <strong>' + o.data_barang.nama_brng + '</strong></td><td> ' +
-                        o.jml + ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' +
-                        (o.aturan_pakai != null ? o.aturan_pakai.aturan : '') + '</td><tr>';
+                    if (o.data_barang.kdjns != 'J024') {
+                        pemberian += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' +
+                            o.jam + '</td><td>: <strong>' + o.data_barang.nama_brng + '</strong></td><td> ' +
+                            o.jml + ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' +
+                            (o.aturan_pakai != null ? o.aturan_pakai.aturan : '') + '</td><tr>';
+                    }
                 })
                 pemberian += '</table>'
                 return '<tr><td>Pemberian Obat</td><td>' + pemberian + '</td></tr>';
