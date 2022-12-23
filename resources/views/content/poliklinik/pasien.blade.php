@@ -25,8 +25,8 @@
                     <table class="table table-striped table-responsive text-sm table-sm" id="tb_pasien" width="100%">
                         <thead>
                             <tr role="row">
-                                <th></th>
-                                <th>No</th>
+                                <th style="width: 5%">Riwayat</th>
+                                <th style="width: 8%">No</th>
                                 <th>Pasien</th>
                                 <th>Upload</th>
                             </tr>

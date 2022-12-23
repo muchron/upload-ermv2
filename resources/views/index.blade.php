@@ -41,16 +41,101 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <style>
-        .borderless td,
-        .borderless th {
+        table {
+            font-size: 12px;
+        }
+
+        .borderless th,
+        .borderless td {
             border: none;
-            height: 0.1em;
+            height: 5px !important;
+            padding: 5px !important;
         }
     </style>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
+        function formatTanggal(oldTgl) {
+            let t = new Date(oldTgl);
+            let bulan = '';
+            switch ((t.getMonth() + 1)) {
+                case 1:
+                    bulan = "Januari";
+                    break;
+                case 2:
+                    bulan = "Februari";
+                    break;
+                case 3:
+                    bulan = "Maret";
+                    break;
+                case 4:
+                    bulan = "April";
+                    break;
+                case 5:
+                    bulan = "Mei";
+                    break;
+                case 6:
+                    bulan = "Juni";
+                    break;
+                case 7:
+                    bulan = "Juli";
+                    break;
+                case 8:
+                    bulan = "Agustus";
+                    break;
+                case 9:
+                    bulan = "September";
+                    break;
+                case 10:
+                    bulan = "Oktober";
+                    break;
+                case 11:
+                    bulan = "November";
+                    break;
+                case 12:
+                    bulan = "Desember";
+                    break;
+                default:
+                    break;
+            }
+            return tanggal = t.getDate() + ' ' + bulan + ' ' + t.getFullYear();
+        }
+
         function isKosong(x, satuan = '') {
             return x ? x + satuan : '-';
+        }
+
+
+
+        function pemberianObat(obat) {
+            console.log(Object.keys(obat).length)
+            if (Object.keys(obat).length > 0) {
+                var pemberian = '<table class="table table-success borderless mb-0">';
+                obat.forEach(function(o) {
+                    console.log(o)
+                    pemberian += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' +
+                        o.jam + '</td><td>: <strong>' + o.data_barang.nama_brng + '</strong></td><td> ' +
+                        o.jml + ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' +
+                        (o.aturan_pakai != null ? o.aturan_pakai.aturan : '') + '</td><tr>';
+                })
+                pemberian += '</table>'
+                return '<tr><td>Pemberian Obat</td><td>' + pemberian + '</td></tr>';
+            }
+            return '';
+        }
+
+        function diagnosaPasien(diagnosa) {
+            if (Object.keys(diagnosa).length > 0) {
+                var diagnosaPasien = '<table class="table table-success borderless mb-0">';
+                diagnosa.forEach(function(d) {
+                    diagnosaPasien +=
+                        '<tr><td style="width:5%"><strong>' + d.kd_penyakit + '</strong></td><td>: ' + d
+                        .penyakit
+                        .nm_penyakit + '</td><tr>';
+                })
+                diagnosaPasien += '</table>'
+                return '<tr><td>Diagnosa</td><td>' + diagnosaPasien + '</td></tr>';
+            }
+            return '';
         }
 
         function resume(d) {
@@ -61,13 +146,13 @@
                 i.pemeriksaan_ralan.forEach(function(x) {
                     pemeriksaan = '<tr><td>Pemeriksaan</td><td>' +
                         '<div class="row">' +
-                        '<div class="col-4">' +
-                        '<table class="table table-sm text-sm borderless table-success">' +
-                        '<tr>' +
-                        '<tr><td style="width=12%">Tanggal Rawat</td><td>: ' + x.tgl_perawatan + ' ' + x
+                        '<div class="col-sm-4">' +
+                        '<table class="table table-sm text-sm borderless table-success mb-2">' +
+                        '<tr><td style="width=12%">Tanggal Rawat</td><td>: ' + formatTanggal(x
+                            .tgl_perawatan) + ' ' + x
                         .jam_rawat + '</td></tr>' +
                         '<tr><td>Tinggi</td><td>: ' + isKosong(x.tinggi, ' cm') + '</td><tr>' +
-                        '<tr><td>Berat Badan</td><td>: ' + isKosong(x.tinggi, ' Kg') + '</td><tr>' +
+                        '<tr><td>Berat Badan</td><td>: ' + isKosong(x.berat, ' Kg') + '</td><tr>' +
                         '<tr><td>Suhu</td><td>: ' + isKosong(x.suhu_tubuh, ' <sup>o</sup>C') + '</td><tr>' +
                         '<tr><td>Tensi</td><td>: ' + isKosong(x.tensi) + '</td><tr>' +
                         '<tr><td>Kesadaran</td><td>: ' + isKosong(x.kesadaran) + '</td><tr>' +
@@ -79,33 +164,32 @@
                         '</tr>' +
                         '</table>' +
                         '</div>' +
-                        '<div class="col-8">' +
+                        '<div class="col-sm-8">' +
                         '<table class="table table-sm text-sm borderless table-success">' +
                         '<tr>' +
-                        '<tr><td>Subject</td><td>: ' + isKosong(x.keluhan) + '</td><tr>' +
+                        '<tr><td style="width:10%">Subject</td><td>: ' + isKosong(x.keluhan) + '</td><tr>' +
                         '<tr><td>Object</td><td>: ' + isKosong(x.pemeriksaan) + '</td><tr>' +
                         '<tr><td>Assesment</td><td>: ' + isKosong(x.penilaian) + '</td><tr>' +
                         '<tr><td>Plan</td><td>: ' + isKosong(x.rtl) + '</td><tr>' +
-                        '</tr>' +
                         '</table>' +
                         '</div>' +
                         '</td></tr>';
-                    console.log(x)
+                    // console.log(x)
                 })
-                let diagnosaPasien = '';
-                i.diagnosa_pasien.forEach(function(d) {
-                    // diagnosaPasien +=
-                    //     '<table><tr><td style="width:5%">' + d.kd_penyakit + '</td><td>: ' + d.penyakit
-                    //     .nm_penyakit + '</td><tr>' +
-                    //     '</tr></table>';
 
-                    // // console.log(d)
-                    // diagnosa = '<div class="row">' +
-                    //     '<div class="col-12">' +
-                    //     '' +
-                    //     '<tr><td>Diagnosa</td><td>' + diagnosaPasien +
-                    //     '</td></tr></table></div></div>';
-                })
+
+                // var pemberianObat = '<table class="table table-success borderless mb-0">';
+
+                // i.detail_pemberian_obat.forEach(function(o) {
+                //     pemberianObat += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' + o
+                //         .jam + '</td><td>:<strong>' + o.data_barang.nama_brng + '</strong></td><td> ' + o
+                //         .jml +
+                //         ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' + o.aturan_pakai
+                //         .aturan + '</td><tr>';
+                //     console.log(o);
+                // })
+                // pemberianObat += '</table>'
+                // obat = '<tr><td>Pemberian Obat</td><td>' + pemberianObat + '</td></tr>';
 
                 detail +=
                     '<tr>' +
@@ -113,12 +197,14 @@
                     '</strong></td>' +
                     '</tr>' +
                     '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + i.no_rawat + '</td></tr>' +
-                    '<tr><td>No Rawat</td><td>: ' + i.tgl_registrasi + ' ' + i.jam_reg + '</td></tr>' +
+                    '<tr><td>No Rawat</td><td>: ' + formatTanggal(i.tgl_registrasi) + ' ' + i.jam_reg +
+                    '</td></tr>' +
                     '<tr><td>Unit/Poliklinik</td><td>: ' + i.poliklinik.nm_poli + '</td></tr>' +
                     '<tr><td>Dokter</td><td>: ' + i.dokter.nm_dokter + '</td></tr>' +
                     '<tr><td>Cara Bayar</td><td>: ' + i.penjab.png_jawab + '</td></tr>' +
 
-                    diagnosa + pemeriksaan + '</tr>'
+                    diagnosaPasien(i.diagnosa_pasien) + pemeriksaan + pemberianObat(i.detail_pemberian_obat) +
+                    '</tr>'
                 // console.log(i)
             });
             return (

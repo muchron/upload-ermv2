@@ -30,11 +30,14 @@ class RegPeriksaController extends Controller
     public function pemeriksaanRalan($no_rkm_medis)
     {
         $pemeriksaan = Pasien::where('no_rkm_medis', $no_rkm_medis)
-
             ->with('regPeriksa', function ($q) {
                 return $q->where('stts', 'Sudah')->with(['poliklinik', 'dokter', 'penjab', 'pemeriksaanRalan', 'diagnosaPasien' => function ($q) {
                     return $q->with('penyakit');
-                }]);
+                }, 'detailPemberianObat' => function ($q) {
+                    return $q->with(['aturanPakai', 'dataBarang' => function ($q) {
+                        $q->with('kodeSatuan');
+                    }]);
+                }, 'kamarInap']);
             })
             ->get();
 

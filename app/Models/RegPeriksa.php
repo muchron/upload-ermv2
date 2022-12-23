@@ -45,4 +45,8 @@ class RegPeriksa extends Model
     {
         return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
     }
+    public function detailPemberianObat()
+    {
+        return $this->hasMany(DetailPemberianObat::class, 'no_rawat', 'no_rawat');
+    }
 }
