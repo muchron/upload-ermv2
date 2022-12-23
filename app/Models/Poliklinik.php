@@ -14,4 +14,8 @@ class Poliklinik extends Model
     {
         return $this->hasMany(MappingPoliklinik::class, 'kd_poli', 'kd_poli');
     }
+    public function regPeriksa()
+    {
+        return $this->hasMany(RegPeriksa::class, 'kd_poli', 'kd_poli');
+    }
 }

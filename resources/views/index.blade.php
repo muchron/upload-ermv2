@@ -40,51 +40,93 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-
-
+    <style>
+        .borderless td,
+        .borderless th {
+            border: none;
+            height: 0.1em;
+        }
+    </style>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
+        function isKosong(x, satuan = '') {
+            return x ? x + satuan : '-';
+        }
+
         function resume(d) {
-            // `d` is the original data object for the row
-            // var no_rawat = '';
-            // var pemeriksaan = '';
-            // d.reg_periksa.forEach(function(i) {
-            //     i.pemeriksaan_ralan.forEach(function(x) {
-            //         pemeriksaan = '<tr><td></td><td>Tanggal ' + x.tgl_perawatan + ' ' + x.jam_rawat +
-            //             '<br/>' +
-            //             'Suhu : <strong>' + x.suhu_tubuh + '</strong></br>' +
-            //             'Tensi : <strong>' + x.tensi + '</strong></br>' +
-            //             'Nadi : <strong>' + x.nadi + '</strong></br>' +
-            //             'Respirasi : <strong>' + x.respirasi + '</strong></br>' +
+            var detail = '';
+            var pemeriksaan = '';
+            var diagnosa = '';
+            d.reg_periksa.forEach(function(i) {
+                i.pemeriksaan_ralan.forEach(function(x) {
+                    pemeriksaan = '<tr><td>Pemeriksaan</td><td>' +
+                        '<div class="row">' +
+                        '<div class="col-4">' +
+                        '<table class="table table-sm text-sm borderless table-success">' +
+                        '<tr>' +
+                        '<tr><td style="width=12%">Tanggal Rawat</td><td>: ' + x.tgl_perawatan + ' ' + x
+                        .jam_rawat + '</td></tr>' +
+                        '<tr><td>Tinggi</td><td>: ' + isKosong(x.tinggi, ' cm') + '</td><tr>' +
+                        '<tr><td>Berat Badan</td><td>: ' + isKosong(x.tinggi, ' Kg') + '</td><tr>' +
+                        '<tr><td>Suhu</td><td>: ' + isKosong(x.suhu_tubuh, ' <sup>o</sup>C') + '</td><tr>' +
+                        '<tr><td>Tensi</td><td>: ' + isKosong(x.tensi) + '</td><tr>' +
+                        '<tr><td>Kesadaran</td><td>: ' + isKosong(x.kesadaran) + '</td><tr>' +
+                        '<tr><td>Respirasi</td><td>: ' + isKosong(x.respirasi) +
+                        '<tr><td>GCS(E,V,M)</td><td>: ' + isKosong(x.gcs) +
+                        '<tr><td>Alergi</td><td>: ' + isKosong(x.alergi) +
+                        '<tr><td>Imunisasi</td><td>: ' + isKosong(x.imun_ke) +
+                        '</td><tr>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</div>' +
+                        '<div class="col-8">' +
+                        '<table class="table table-sm text-sm borderless table-success">' +
+                        '<tr>' +
+                        '<tr><td>Subject</td><td>: ' + isKosong(x.keluhan) + '</td><tr>' +
+                        '<tr><td>Object</td><td>: ' + isKosong(x.pemeriksaan) + '</td><tr>' +
+                        '<tr><td>Assesment</td><td>: ' + isKosong(x.penilaian) + '</td><tr>' +
+                        '<tr><td>Plan</td><td>: ' + isKosong(x.rtl) + '</td><tr>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</div>' +
+                        '</td></tr>';
+                    console.log(x)
+                })
+                let diagnosaPasien = '';
+                i.diagnosa_pasien.forEach(function(d) {
+                    // diagnosaPasien +=
+                    //     '<table><tr><td style="width:5%">' + d.kd_penyakit + '</td><td>: ' + d.penyakit
+                    //     .nm_penyakit + '</td><tr>' +
+                    //     '</tr></table>';
 
-            //             '</td></tr>';
-            //         // console.log(x)
-            //     })
-            //     no_rawat += '<tr><td></td><td>' + i.no_rawat + '</td>' +
-            //         pemeriksaan + '</tr>'
-            //     console.log(i)
-            // });
-            // return (
-            //     '<table class="table table-responsive table-bordered" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-            //     '<tr>' +
-            //     '<td>Tanggal Daftar</td>' +
-            //     '<td> : ' +
-            //     d.tgl_lahir +
-            //     '</td>' +
-            //     '</tr>' +
-            //     '<tr>' +
-            //     '<td>Alamat</td>' +
-            //     '<td> : ' +
-            //     d.alamat +
-            //     '</td>' +
-            //     '</tr>' +
-            //     '<tr>' +
-            //     '<td colspan="2" align="center"><strong>PEMERIKSAAN RAWAT JALAN</strong>' + no_rawat + '</td>' +
-            //     '</tr>' +
-            //     '</table>'
-            // );
+                    // // console.log(d)
+                    // diagnosa = '<div class="row">' +
+                    //     '<div class="col-12">' +
+                    //     '' +
+                    //     '<tr><td>Diagnosa</td><td>' + diagnosaPasien +
+                    //     '</td></tr></table></div></div>';
+                })
 
-            return ();
+                detail +=
+                    '<tr>' +
+                    '<td colspan="2" align="center" class="table-dark"><strong>' + i.status_lanjut +
+                    '</strong></td>' +
+                    '</tr>' +
+                    '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + i.no_rawat + '</td></tr>' +
+                    '<tr><td>No Rawat</td><td>: ' + i.tgl_registrasi + ' ' + i.jam_reg + '</td></tr>' +
+                    '<tr><td>Unit/Poliklinik</td><td>: ' + i.poliklinik.nm_poli + '</td></tr>' +
+                    '<tr><td>Dokter</td><td>: ' + i.dokter.nm_dokter + '</td></tr>' +
+                    '<tr><td>Cara Bayar</td><td>: ' + i.penjab.png_jawab + '</td></tr>' +
+
+                    diagnosa + pemeriksaan + '</tr>'
+                // console.log(i)
+            });
+            return (
+                '<table class="table table-bordered table-responsive" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+
+                detail +
+                '</table>'
+            );
         }
 
         function tb_pasien() {

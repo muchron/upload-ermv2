@@ -33,4 +33,16 @@ class RegPeriksa extends Model
     {
         return $this->hasMany(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
     }
+    public function poliklinik()
+    {
+        return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
+    }
+    public function penjab()
+    {
+        return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
+    }
+    public function diagnosaPasien()
+    {
+        return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
+    }
 }
