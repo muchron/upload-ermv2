@@ -129,18 +129,15 @@
             })
         }
 
-
-
-
-
         function pemberianObat(obat) {
-            // console.log(Object.keys(obat).length)
             if (Object.keys(obat).length > 0) {
                 var pemberian = '<table class="table table-success borderless mb-0">';
                 let tgl_sekarang = ''
                 obat.forEach(function(o) {
                     if (o.data_barang.kdjns != 'J024') {
-                        pemberian += '<tr><td>' + (tgl_sekarang == '' ? formatTanggal(o.tgl_perawatan) + ', Jam ' +
+                        pemberian += '<tr><td>' + (tgl_sekarang != o.tgl_perawatan ? formatTanggal(o
+                                    .tgl_perawatan) +
+                                ', Jam ' +
                                 o.jam : '') +
                             '</td><td>: <strong>' + o.data_barang.nama_brng +
                             '</strong></td><td> ' + o.jml + '</td><td class="aturan-' + textRawat(o.no_rawat) +
@@ -156,6 +153,49 @@
             return '';
         }
 
+        function petugasLab(dokter, petugas) {
+
+        }
+
+        function pemeriksaanLab(lab, umur, jk) {
+            if (Object.keys(lab).length > 0) {
+                var hasilLab = '<table class="table table-success borderless mb-0">';
+                let tgl_sekarang = '';
+                let jnsPeriksa = '';
+                let nmPerawatan = '';
+                let no = 1;
+                let rujukan = '';
+                lab.forEach(function(l) {
+
+
+                    console.log(l)
+                    tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ? no = 1 : '';
+                    hasilLab += (tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
+                            '<tr><td style="width:16%">' + formatTanggal(l.tgl_periksa) + ', Jam ' + l
+                            .jam +
+                            '</td>' : '') +
+                        (jnsPeriksa == l.kd_jenis_prw ? (tgl_sekarang != l.tgl_periksa ?
+                                '<td style="width:30%">: <strong>' + l
+                                .jns_perawatan_lab.nm_perawatan +
+                                '</td></tr><tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' :
+                                '') : '<td style="width:30%">: <strong>' + l
+                            .jns_perawatan_lab.nm_perawatan +
+                            '</td></tr><tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>') +
+                        '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
+                        ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
+                        '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>'
+                    tgl_sekarang = l.tgl_periksa;
+                    jnsPeriksa = l.kd_jenis_prw;
+                    nmPerawatan = l.jns_perawatan_lab.nm_perawatan;
+
+                    no++
+                })
+                hasilLab += '</table>'
+                return '<tr><td>Laboratorium </td><td>' + hasilLab + '</td></tr>';
+            }
+            return '';
+        }
+
         function diagnosaPasien(diagnosa) {
             if (Object.keys(diagnosa).length > 0) {
                 var diagnosaPasien = '<table class="table table-success borderless mb-0">';
@@ -167,21 +207,6 @@
                 })
                 diagnosaPasien += '</table>'
                 return '<tr><td>Diagnosa</td><td>' + diagnosaPasien + '</td></tr>';
-            }
-            return '';
-        }
-
-        function pemeriksaanLab(lab) {
-            if (Object.keys(lab).length > 0) {
-                var hasilLab = '<table class="table table-success borderless mb-0">';
-                lab.forEach(function(d) {
-                    hasilLab +=
-                        '<tr><td style="width:5%"><strong>' + d.kd_penyakit + '</strong></td><td>: ' + d
-                        .penyakit
-                        .nm_penyakit + '</td><tr>';
-                })
-                hasilLab += '</table>'
-                return '<tr><td>Pemeriksaan Lab</td><td>' + hasilLab + '</td></tr>';
             }
             return '';
         }
@@ -222,23 +247,7 @@
                         '</table>' +
                         '</div>' +
                         '</td></tr>';
-                    // console.log(x)
                 })
-
-
-                // var pemberianObat = '<table class="table table-success borderless mb-0">';
-
-                // i.detail_pemberian_obat.forEach(function(o) {
-                //     pemberianObat += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' + o
-                //         .jam + '</td><td>:<strong>' + o.data_barang.nama_brng + '</strong></td><td> ' + o
-                //         .jml +
-                //         ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' + o.aturan_pakai
-                //         .aturan + '</td><tr>';
-                //     console.log(o);
-                // })
-                // pemberianObat += '</table>'
-                // obat = '<tr><td>Pemberian Obat</td><td>' + pemberianObat + '</td></tr>';
-
                 detail +=
                     '<tr>' +
                     '<td colspan="2" align="center" class="table-dark"><strong>' + i.status_lanjut +
@@ -254,14 +263,13 @@
                     '<tr><td>Cara Bayar</td><td>: ' + i.penjab.png_jawab + '</td></tr>' +
 
                     diagnosaPasien(i.diagnosa_pasien) + pemeriksaan + pemberianObat(i.detail_pemberian_obat) +
-                    '</tr>'
-                // console.log(i)
+                    pemeriksaanLab(i.detail_pemeriksaan_lab, i.umurdaftar, d.jk)
+                '</tr>'
+
             });
             return (
                 '<table class="table table-bordered table-responsive" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-
-                detail +
-                '</table>'
+                detail + '</table>'
             );
         }
 
@@ -313,10 +321,9 @@
                         method: 'GET',
                         dataType: 'JSON',
                         success: function(data) {
-                            data.forEach(function(item, index) {
-                                dataPeriksa = item;
+                            data.forEach(function(response) {
                                 // console.log(dataPeriksa)
-                                row.child(resume(dataPeriksa)).show();
+                                row.child(resume(response)).show();
                                 tr.addClass('shown');
                                 tr.removeClass('shown');
                             })

@@ -31,15 +31,17 @@ class RegPeriksaController extends Controller
     {
         $pemeriksaan = Pasien::where('no_rkm_medis', $no_rkm_medis)
             ->with('regPeriksa', function ($q) {
-                return $q->where('stts', 'Sudah')->with(['poliklinik', 'dokter', 'penjab', 'pemeriksaanRalan', 'diagnosaPasien' => function ($q) {
+                return $q->where(function ($q) {
+                    $q->where('stts', 'Sudah')->orWhere('status_lanjut', '=', 'Ranap');
+                })->with(['poliklinik', 'dokter', 'penjab', 'pemeriksaanRalan', 'diagnosaPasien' => function ($q) {
                     return $q->with('penyakit');
                 }, 'detailPemberianObat' => function ($q) {
                     return $q->with(['aturanPakai', 'dataBarang' => function ($q) {
                         $q->with('kodeSatuan');
                     }]);
                 }, 'detailPemeriksaanLab' => function ($q) {
-                    $q->with(['jnsPerawatanLab', 'nilaiRujukan']);
-                }]);
+                    $q->with(['jnsPerawatanLab', 'template']);
+                }, 'kamarInap']);
             })
             ->get();
 

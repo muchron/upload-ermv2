@@ -34,7 +34,7 @@ class PoliklinikController extends Controller
         $tanggal = new Carbon();
 
         $sekarang = $tanggal->now()->toDateString();
-        return $pasienPoli = RegPeriksa::whereYear('tgl_registrasi', '2021')
+        return $pasienPoli = RegPeriksa::whereYear('tgl_registrasi', '2022')
             ->whereMonth('tgl_registrasi', '05')
             ->with(['pasien', 'dokter'])
             ->where('kd_poli', $kd_poli)

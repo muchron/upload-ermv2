@@ -17,7 +17,7 @@ class DetailPemeriksaanLab extends Model
     {
         return $this->belongsTo(JnsPerawatanLab::class, 'kd_jenis_prw', 'kd_jenis_prw');
     }
-    public function nilaiRujukan()
+    public function template()
     {
         return $this->belongsTo(TemplateLaboratorium::class, 'id_template', 'id_template');
     }
