@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JnsPerawatanLab extends Model
+class TemplateLaboratorium extends Model
 {
     use HasFactory;
-    protected $table = 'jns_perawatan_lab';
+    protected $table = 'template_laboratorium';
     public function detailPemeriksaanLab()
     {
-        return $this->hasMany(DetailPemeriksaanLab::class, 'kd_jenis_prw', 'kd_jenis_prw');
+        return $this->hasMany(DetailPemeriksaanLab::class, 'id_template', 'id_template');
     }
 }

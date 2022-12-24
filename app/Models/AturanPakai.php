@@ -11,6 +11,6 @@ class AturanPakai extends Model
     protected $table = 'aturan_pakai';
     public function detailPemberianObat()
     {
-        return $this->hasMany(DetailPemberianObat::class, 'no_rawat', 'no_rawat');
+        return $this->hasMany(DetailPemberianObat::class, ['no_rawat', 'kd_barang'], ['no_rawat', 'kd_barang']);
     }
 }

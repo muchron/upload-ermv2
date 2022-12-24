@@ -37,7 +37,9 @@ class RegPeriksaController extends Controller
                     return $q->with(['aturanPakai', 'dataBarang' => function ($q) {
                         $q->with('kodeSatuan');
                     }]);
-                }, 'kamarInap']);
+                }, 'detailPemeriksaanLab' => function ($q) {
+                    $q->with(['jnsPerawatanLab', 'nilaiRujukan']);
+                }]);
             })
             ->get();
 

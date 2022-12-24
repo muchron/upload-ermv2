@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\LoginController;
 use App\Models\Pasien;
+use App\Models\Poliklinik;
+use App\Models\DetailPemberianObat;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RegPeriksaController;
-use App\Http\Controllers\UploadController;
-use App\Models\Poliklinik;
+use App\Http\Controllers\DetailPemberianObatController;
 
 Route::get('/login', function () {
     return view('content.auth.login');
@@ -65,3 +67,4 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/aes/{input}/{string}', [LoginController::class, 'aes_encrypt']);
 Route::get('/test/{no_rkm_medis}', [RegPeriksaController::class, 'pemeriksaanRalan']);
+Route::get('/aturan', [DetailPemberianObatController::class, 'aturanPakai']);

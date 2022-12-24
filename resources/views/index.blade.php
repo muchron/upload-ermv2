@@ -105,17 +105,49 @@
         }
 
 
+        function textRawat(no_rawat) {
+            let splitNoRawat = no_rawat.split('/');
+            textNoRawat = splitNoRawat.join('');
+            return textNoRawat;
+
+        }
+
+        function getAturanPakai(no_rawat, obat) {
+
+            var aturan = '';
+            var ajaxAturan = $.ajax({
+                url: '/upload-erm/aturan',
+                data: {
+                    'no_rawat': no_rawat,
+                    'kode_brng': obat
+                },
+                dataType: 'JSON',
+                // async: false,
+                success: function(response) {
+                    $('.aturan-' + textRawat(no_rawat) + '-' + obat).text(response.aturan)
+                }
+            })
+        }
+
+
+
+
 
         function pemberianObat(obat) {
-            console.log(Object.keys(obat).length)
+            // console.log(Object.keys(obat).length)
             if (Object.keys(obat).length > 0) {
                 var pemberian = '<table class="table table-success borderless mb-0">';
+                let tgl_sekarang = ''
                 obat.forEach(function(o) {
                     if (o.data_barang.kdjns != 'J024') {
-                        pemberian += '<tr><td>' + formatTanggal(o.tgl_perawatan) + ', Jam ' +
-                            o.jam + '</td><td>: <strong>' + o.data_barang.nama_brng + '</strong></td><td> ' +
-                            o.jml + ' ' + o.data_barang.kode_satuan.satuan + '</td><td>' +
-                            (o.aturan_pakai != null ? o.aturan_pakai.aturan : '') + '</td><tr>';
+                        pemberian += '<tr><td>' + (tgl_sekarang == '' ? formatTanggal(o.tgl_perawatan) + ', Jam ' +
+                                o.jam : '') +
+                            '</td><td>: <strong>' + o.data_barang.nama_brng +
+                            '</strong></td><td> ' + o.jml + '</td><td class="aturan-' + textRawat(o.no_rawat) +
+                            '-' + o
+                            .kode_brng + '"></td><tr>';
+                        tgl_sekarang = o.tgl_perawatan;
+                        getAturanPakai(o.no_rawat, o.kode_brng)
                     }
                 })
                 pemberian += '</table>'
@@ -135,6 +167,21 @@
                 })
                 diagnosaPasien += '</table>'
                 return '<tr><td>Diagnosa</td><td>' + diagnosaPasien + '</td></tr>';
+            }
+            return '';
+        }
+
+        function pemeriksaanLab(lab) {
+            if (Object.keys(lab).length > 0) {
+                var hasilLab = '<table class="table table-success borderless mb-0">';
+                lab.forEach(function(d) {
+                    hasilLab +=
+                        '<tr><td style="width:5%"><strong>' + d.kd_penyakit + '</strong></td><td>: ' + d
+                        .penyakit
+                        .nm_penyakit + '</td><tr>';
+                })
+                hasilLab += '</table>'
+                return '<tr><td>Pemeriksaan Lab</td><td>' + hasilLab + '</td></tr>';
             }
             return '';
         }
@@ -197,8 +244,10 @@
                     '<td colspan="2" align="center" class="table-dark"><strong>' + i.status_lanjut +
                     '</strong></td>' +
                     '</tr>' +
-                    '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + i.no_rawat + '</td></tr>' +
-                    '<tr><td>No Rawat</td><td>: ' + formatTanggal(i.tgl_registrasi) + ' ' + i.jam_reg +
+                    '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + formatTanggal(i.tgl_registrasi) + ' ' +
+                    i.jam_reg +
+                    '<tr><td>Nomor Rawat</td><td>: ' + i.no_rawat + '</td></tr>' +
+                    '<tr><td>Nomor RM</td><td>: ' + i.no_rkm_medis + '</td></tr>' +
                     '</td></tr>' +
                     '<tr><td>Unit/Poliklinik</td><td>: ' + i.poliklinik.nm_poli + '</td></tr>' +
                     '<tr><td>Dokter</td><td>: ' + i.dokter.nm_dokter + '</td></tr>' +

@@ -49,4 +49,8 @@ class RegPeriksa extends Model
     {
         return $this->hasMany(DetailPemberianObat::class, 'no_rawat', 'no_rawat');
     }
+    public function detailPemeriksaanLab()
+    {
+        return $this->hasMany(DetailPemeriksaanLab::class, 'no_rawat', 'no_rawat');
+    }
 }

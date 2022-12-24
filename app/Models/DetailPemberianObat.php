@@ -19,6 +19,6 @@ class DetailPemberianObat extends Model
     }
     public function aturanPakai()
     {
-        return $this->belongsTo(AturanPakai::class, 'no_rawat', 'no_rawat');
+        return $this->belongsTo(AturanPakai::class, 'kode_brng',  'kode_brng');
     }
 }
