@@ -153,9 +153,25 @@
             return '';
         }
 
-        function petugasLab(dokter, petugas) {
+        function petugasLab(no_rawat, lab) {
+            $.ajax({
+                url: '/upload-erm/lab/petugas',
+                data: {
+                    'no_rawat': no_rawat,
+                    'kd_jenis_prw': lab,
+                },
+                dataType: 'JSON',
+                method: 'GET',
+                success: function(response) {
+                    $('.dr-' + textRawat(no_rawat) + '-' + lab).text(response.dokter.nm_dokter);
+                    $('.petugas-' + textRawat(no_rawat) + '-' + lab).text(response.petugas.nama);
+                }
+            })
 
         }
+        $(document).ready(function() {
+            petugasLab('2022/12/26/000050', 'J000022');
+        })
 
         function pemeriksaanLab(lab, umur, jk) {
             if (Object.keys(lab).length > 0) {
@@ -166,27 +182,33 @@
                 let no = 1;
                 let rujukan = '';
                 lab.forEach(function(l) {
-
-
                     console.log(l)
                     tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ? no = 1 : '';
-                    hasilLab += (tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
-                            '<tr><td style="width:16%">' + formatTanggal(l.tgl_periksa) + ', Jam ' + l
+                    hasilLab += (tgl_sekarang != l.tgl_periksa ?
+                            '<tr class="table-warning"><td style="width:26%">' + formatTanggal(l.tgl_periksa) +
+                            ', Jam ' + l
                             .jam +
-                            '</td>' : '') +
+                            '</td></tr>' : nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
+                            '<tr class="table-warning"><td></td>' : '') +
                         (jnsPeriksa == l.kd_jenis_prw ? (tgl_sekarang != l.tgl_periksa ?
                                 '<td style="width:30%">: <strong>' + l
                                 .jns_perawatan_lab.nm_perawatan +
-                                '</td></tr><tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' :
-                                '') : '<td style="width:30%">: <strong>' + l
-                            .jns_perawatan_lab.nm_perawatan +
-                            '</td></tr><tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>') +
+                                '</td> <td class="dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
+                                '<td class="petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw +
+                                '"></td></tr>' +
+                                '</tr>' +
+                                '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '') :
+                            '<td style="width:30%"> <strong>' + l.jns_perawatan_lab.nm_perawatan + '</td>' +
+                            '<td class="dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
+                            '<td class="petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td></tr>' +
+                            '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>') +
                         '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
                         ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
                         '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>'
                     tgl_sekarang = l.tgl_periksa;
                     jnsPeriksa = l.kd_jenis_prw;
                     nmPerawatan = l.jns_perawatan_lab.nm_perawatan;
+                    petugasLab(l.no_rawat, l.kd_jenis_prw);
 
                     no++
                 })

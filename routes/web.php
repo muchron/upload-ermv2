@@ -10,6 +10,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RegPeriksaController;
 use App\Http\Controllers\DetailPemberianObatController;
+use App\Http\Controllers\LabController;
 
 Route::get('/login', function () {
     return view('content.auth.login');
@@ -68,3 +69,4 @@ Route::middleware('auth')->group(function () {
 Route::get('/aes/{input}/{string}', [LoginController::class, 'aes_encrypt']);
 Route::get('/test/{no_rkm_medis}', [RegPeriksaController::class, 'pemeriksaanRalan']);
 Route::get('/aturan', [DetailPemberianObatController::class, 'aturanPakai']);
+Route::get('lab/petugas', [LabController::class, 'petugas']);
