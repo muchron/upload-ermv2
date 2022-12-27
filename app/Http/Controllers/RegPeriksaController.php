@@ -40,7 +40,7 @@ class RegPeriksaController extends Controller
                         $q->with('kodeSatuan');
                     }]);
                 }, 'detailPemeriksaanLab' => function ($q) {
-                    $q->with(['jnsPerawatanLab', 'template']);
+                    $q->with(['jnsPerawatanLab', 'template'])->orderBy('tgl_periksa', 'ASC');
                 }, 'kamarInap']);
             })
             ->get();
