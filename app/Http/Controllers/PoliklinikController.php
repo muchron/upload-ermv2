@@ -35,7 +35,7 @@ class PoliklinikController extends Controller
 
         $sekarang = $tanggal->now()->toDateString();
         return $pasienPoli = RegPeriksa::whereYear('tgl_registrasi', '2022')
-            ->whereMonth('tgl_registrasi', '10')
+            ->whereMonth('tgl_registrasi', '05')
             ->with(['pasien', 'dokter'])
             ->where('kd_poli', $kd_poli)
             ->where('kd_dokter', $kd_dokter);

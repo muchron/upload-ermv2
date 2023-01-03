@@ -1,3 +1,4 @@
+t
 <!doctype html>
 <html lang="en">
 @include('layout.head')
@@ -169,17 +170,38 @@
             })
 
         }
+<<<<<<< HEAD
       function pemeriksaanLab(lab, umur, jk) {
+=======
+        $(document).ready(function() {
+            // petugasLab('2022/12/26/000050', 'J000022');
+        })
+
+        function pemeriksaanLab(lab, umur, jk) {
+>>>>>>> edeef58f61b6c7428cdd296230c1fac4879ae8e0
             if (Object.keys(lab).length > 0) {
-                var hasilLab = '<table class="table table-success borderless mb-0">';
+                var hasilLab = '<table class="table borderless table-success mb-0">';
                 let tgl_sekarang = '';
                 let jnsPeriksa = '';
                 let nmPerawatan = '';
                 let no = 1;
                 let rujukan = '';
+                let classDokter = '';
+                let classDokterSekarang = '';
+                let classPetugas = '';
+                let classPetugasSekarang = '';
+                let barisTanggal = '';
+
                 lab.forEach(function(l) {
                     console.log(l)
+                    classDokterSekarang = classDokter;
+                    classPetugasSekarang = classPetugas;
+
+                    classDokter = 'dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw;
+                    classPetugas = 'petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw;
+
                     tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ? no = 1 : '';
+<<<<<<< HEAD
                     hasilLab += (tgl_sekarang != l.tgl_periksa ?
                             '<tr class="table-warning"><td style="width:9%">' +
                             formatTanggal(l.tgl_periksa) + ', Jam ' + l.jam + '</td>' +
@@ -200,6 +222,54 @@
                         '<tr><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
                         ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
                         '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>';
+=======
+                    barisTanggal = tgl_sekarang != l.tgl_periksa ? '<td>' + formatTanggal(l.tgl_periksa) + ' ' + l
+                        .jam + '</td>' : '';
+                    barisPerawatan = nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
+                        '<td></td><td colspan="3""><strong>' +
+                        l
+                        .jns_perawatan_lab
+                        .nm_perawatan + '</strong></td>' : '';
+                    barisDokter = tgl_sekarang != l.tgl_periksa && classDokterSekarang != classDokter ?
+                        '<td class="' + classDokter + '">' + '</td>' : '';
+                    barisPetugas = tgl_sekarang != l.tgl_periksa && classPetugasSekarang != classPetugas ?
+                        '<td class="' + classPetugas + '" colspan="2">' + '</td>' +
+                        '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '';
+
+
+                    console.log(barisPetugas);
+                    // hasilLab += (tgl_sekarang != l.tgl_periksa ?
+                    //         '<tr class="table-warning"><td style="width:26%">' + formatTanggal(l.tgl_periksa) +
+                    //         ', Jam ' + l.jam + '</td>' +
+                    //         '<td class="dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
+                    //         '<td class="petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
+                    //         '</tr>' : nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
+                    //         '<tr class="table-warning"><td></td>' : '') + (jnsPeriksa == l.kd_jenis_prw ? (
+                    //             tgl_sekarang != l.tgl_periksa ?
+                    //             '<td style="width:30%">: <strong>' + l
+                    //             .jns_perawatan_lab.nm_perawatan +
+                    //             '</tr>' +
+                    //             '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '') :
+                    //         '<td></td><td style="width:30%"><strong>' + l.jns_perawatan_lab.nm_perawatan + '</td>' +
+                    //         '</tr>' +
+                    //         '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>') +
+                    //     '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
+                    //     ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
+                    //     '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>'
+
+                    hasilLab += '<tr class="table-bordered">' +
+                        barisTanggal +
+                        barisDokter +
+                        barisPetugas +
+                        '<tr colspan=3>' + barisPerawatan +
+                        '</tr>' +
+                        '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
+                        ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
+                        '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>' +
+                        '</tr>';
+
+
+>>>>>>> edeef58f61b6c7428cdd296230c1fac4879ae8e0
 
                     tgl_sekarang = l.tgl_periksa;
                     jnsPeriksa = l.kd_jenis_prw;
