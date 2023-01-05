@@ -1,4 +1,3 @@
-t
 <!doctype html>
 <html lang="en">
 @include('layout.head')
@@ -170,15 +169,9 @@ t
             })
 
         }
-<<<<<<< HEAD
-      function pemeriksaanLab(lab, umur, jk) {
-=======
-        $(document).ready(function() {
-            // petugasLab('2022/12/26/000050', 'J000022');
-        })
 
         function pemeriksaanLab(lab, umur, jk) {
->>>>>>> edeef58f61b6c7428cdd296230c1fac4879ae8e0
+
             if (Object.keys(lab).length > 0) {
                 var hasilLab = '<table class="table borderless table-success mb-0">';
                 let tgl_sekarang = '';
@@ -193,15 +186,15 @@ t
                 let barisTanggal = '';
 
                 lab.forEach(function(l) {
-                    console.log(l)
+                    // console.log(l)
                     classDokterSekarang = classDokter;
                     classPetugasSekarang = classPetugas;
 
                     classDokter = 'dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw;
                     classPetugas = 'petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw;
 
-                    tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ? no = 1 : '';
-<<<<<<< HEAD
+                    tgl_sekarang != l.tgl_periksa || nmPerawatan != l.jns_perawatan_lab.nm_perawatan ? no = 1 :
+                        '';
                     hasilLab += (tgl_sekarang != l.tgl_periksa ?
                             '<tr class="table-warning"><td style="width:9%">' +
                             formatTanggal(l.tgl_periksa) + ', Jam ' + l.jam + '</td>' +
@@ -211,7 +204,8 @@ t
                             '</tr>' : nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
                             '<tr class="">' : '') +
                         (jnsPeriksa == l.kd_jenis_prw ? (tgl_sekarang != l.tgl_periksa ?
-                                '<td style="width:30%" colspan="3"> <strong>' + l.jns_perawatan_lab.nm_perawatan +
+                                '<td style="width:30%" colspan="3"> <strong>' + l.jns_perawatan_lab
+                                .nm_perawatan +
                                 '</tr>' +
                                 '</tr>' +
                                 '<tr><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '') :
@@ -222,8 +216,8 @@ t
                         '<tr><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
                         ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
                         '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>';
-=======
-                    barisTanggal = tgl_sekarang != l.tgl_periksa ? '<td>' + formatTanggal(l.tgl_periksa) + ' ' + l
+                    barisTanggal = tgl_sekarang != l.tgl_periksa ? '<td>' + formatTanggal(l.tgl_periksa) + ' ' +
+                        l
                         .jam + '</td>' : '';
                     barisPerawatan = nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
                         '<td></td><td colspan="3""><strong>' +
@@ -237,39 +231,19 @@ t
                         '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '';
 
 
-                    console.log(barisPetugas);
-                    // hasilLab += (tgl_sekarang != l.tgl_periksa ?
-                    //         '<tr class="table-warning"><td style="width:26%">' + formatTanggal(l.tgl_periksa) +
-                    //         ', Jam ' + l.jam + '</td>' +
-                    //         '<td class="dr-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
-                    //         '<td class="petugas-' + textRawat(l.no_rawat) + '-' + l.kd_jenis_prw + '"></td>' +
-                    //         '</tr>' : nmPerawatan != l.jns_perawatan_lab.nm_perawatan ?
-                    //         '<tr class="table-warning"><td></td>' : '') + (jnsPeriksa == l.kd_jenis_prw ? (
-                    //             tgl_sekarang != l.tgl_periksa ?
-                    //             '<td style="width:30%">: <strong>' + l
-                    //             .jns_perawatan_lab.nm_perawatan +
-                    //             '</tr>' +
-                    //             '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>' : '') :
-                    //         '<td></td><td style="width:30%"><strong>' + l.jns_perawatan_lab.nm_perawatan + '</td>' +
-                    //         '</tr>' +
-                    //         '<tr><td></td><th>Pemeriksaan</th><th>Hasil</th><th>Rujukan</th></tr>') +
+                    // console.log(barisPetugas);
+
+
+                    // hasilLab += '<tr class="table-bordered">' +
+                    //     barisTanggal +
+                    //     barisDokter +
+                    //     barisPetugas +
+                    //     '<tr colspan=3>' + barisPerawatan +
+                    //     '</tr>' +
                     //     '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
                     //     ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
-                    //     '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>'
-
-                    hasilLab += '<tr class="table-bordered">' +
-                        barisTanggal +
-                        barisDokter +
-                        barisPetugas +
-                        '<tr colspan=3>' + barisPerawatan +
-                        '</tr>' +
-                        '<tr><td></td><td>' + no + '. ' + l.template.Pemeriksaan + '</td><td>' + l.nilai +
-                        ' ' + l.template.satuan + (l.keterangan != '' ? ' (' + l.keterangan + ')' : '') +
-                        '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>' +
-                        '</tr>';
-
-
->>>>>>> edeef58f61b6c7428cdd296230c1fac4879ae8e0
+                    //     '</td><td>' + l.nilai_rujukan + ' ' + l.template.satuan + '</td></tr>' +
+                    //     '</tr>';
 
                     tgl_sekarang = l.tgl_periksa;
                     jnsPeriksa = l.kd_jenis_prw;
@@ -314,7 +288,8 @@ t
                         .jam_rawat + '</td></tr>' +
                         '<tr><td>Tinggi</td><td>: ' + isKosong(x.tinggi, ' cm') + '</td><tr>' +
                         '<tr><td>Berat Badan</td><td>: ' + isKosong(x.berat, ' Kg') + '</td><tr>' +
-                        '<tr><td>Suhu</td><td>: ' + isKosong(x.suhu_tubuh, ' <sup>o</sup>C') + '</td><tr>' +
+                        '<tr><td>Suhu</td><td>: ' + isKosong(x.suhu_tubuh, ' <sup>o</sup>C') +
+                        '</td><tr>' +
                         '<tr><td>Tensi</td><td>: ' + isKosong(x.tensi) + '</td><tr>' +
                         '<tr><td>Kesadaran</td><td>: ' + isKosong(x.kesadaran) + '</td><tr>' +
                         '<tr><td>Respirasi</td><td>: ' + isKosong(x.respirasi) +
@@ -328,7 +303,8 @@ t
                         '<div class="col-sm-8">' +
                         '<table class="table table-sm text-sm borderless table-success">' +
                         '<tr>' +
-                        '<tr><td style="width:10%">Subject</td><td>: ' + isKosong(x.keluhan) + '</td><tr>' +
+                        '<tr><td style="width:10%">Subject</td><td>: ' + isKosong(x.keluhan) +
+                        '</td><tr>' +
                         '<tr><td>Object</td><td>: ' + isKosong(x.pemeriksaan) + '</td><tr>' +
                         '<tr><td>Assesment</td><td>: ' + isKosong(x.penilaian) + '</td><tr>' +
                         '<tr><td>Plan</td><td>: ' + isKosong(x.rtl) + '</td><tr>' +
@@ -341,7 +317,8 @@ t
                     '<td colspan="2" align="center" class="table-dark"><strong>' + i.status_lanjut +
                     '</strong></td>' +
                     '</tr>' +
-                    '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + formatTanggal(i.tgl_registrasi) + ' ' +
+                    '<tr><td style="width:15%">Tanggal Daftar</td><td>: ' + formatTanggal(i.tgl_registrasi) +
+                    ' ' +
                     i.jam_reg +
                     '<tr><td>Nomor Rawat</td><td>: ' + i.no_rawat + '</td></tr>' +
                     '<tr><td>Nomor RM</td><td>: ' + i.no_rkm_medis + '</td></tr>' +
@@ -520,8 +497,10 @@ t
                     reader.onload = function(e) {
                         var file = e.target;
                         var fileName = input.files[index].name
-                        $('#preview').append('<div class="pip col-sm-3"><input type="hidden" name="images" value="' +
-                            file.result + '" class="images"><img width="75%" src="' + file.result + '" title="' +
+                        $('#preview').append(
+                            '<div class="pip col-sm-3"><input type="hidden" name="images" value="' +
+                            file.result + '" class="images"><img width="75%" src="' + file.result +
+                            '" title="' +
                             fileName + '" alt="' + fileName +
                             '"><br /><span class="remove badge text-bg-danger">Remove image</span></div>')
                         $(".remove").click(function() {
@@ -614,13 +593,15 @@ t
                     $('#ranap tbody').empty();
                     $.map(data, function(item) {
                         if (item.upload.length > 0) {
-                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat
+                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item
+                                .no_rawat
                                 .toString() + '\',\'' + item.status_lanjut +
                                 '\')" class="btn btn-success btn-sm"><i class="bi bi-check2-circle"></i></a>'
 
 
                         } else {
-                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item.no_rawat
+                            button = '<a href="#form-upload" onclick="detailPeriksa(\'' + item
+                                .no_rawat
                                 .toString() + '\',\'' + item.status_lanjut +
                                 '\')" class="btn btn-primary btn-sm"><i class="bi bi-cloud-upload"></i></a>'
                         }

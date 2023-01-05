@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
             ->get();
     });
 
-    Route::get('/poliklinik', [PoliklinikController::class, 'index']);
+    Route::get('/poliklinik', [PoliklinikController::class, 'index'])->name('poliklinik');
     Route::get('/poliklinik/dokter', [
         PoliklinikController::class,
         'poliDokter',
